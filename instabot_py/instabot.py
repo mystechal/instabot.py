@@ -832,7 +832,7 @@ class InstaBot:
                                         self.write_log(
                                             "Not liking media with blacklisted tag(s): "
                                             + matching_tags)
-                                        return False
+                                        return True
                             except:
                                 logging.exception("Except on like_all_exist_media")
                                 return False
