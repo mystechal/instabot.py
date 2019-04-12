@@ -843,7 +843,7 @@ class InstaBot:
                                         }
 
                                     if tags.intersection(tag_blacklist):
-                                        matching_tags = ", ".join(
+                                        matching_tags = "tag_blacklist".join(
                                             tags.intersection(tag_blacklist)
                                         )
                                         self.write_log(
