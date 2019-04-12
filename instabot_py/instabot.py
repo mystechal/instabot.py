@@ -827,7 +827,7 @@ class InstaBot:
                                         }
 
                                     if tags.intersection(tag_blacklist):
-                                        matching_tags = 'shamanism, sex, porn, free, follow4follow'.join(
+                                        matching_tags = ','.join(
                                             tags.intersection(tag_blacklist))
                                         self.write_log(
                                             "Not liking media with blacklisted tag(s): "
