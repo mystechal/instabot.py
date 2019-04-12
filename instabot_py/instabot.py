@@ -813,13 +813,13 @@ class InstaBot:
                                 self.write_log("Keep calm - It's already liked ;)")
                                 return False
                             try:
-                                if (
+                                #if (
                                     len(
                                         self.media_by_tag[i]["node"][
                                             "edge_media_to_caption"
                                         ]["edges"]
                                     )
-                                     > -1
+                                     > 1
                                 ):
                                     caption = self.media_by_tag[i]["node"][
                                         "edge_media_to_caption"
