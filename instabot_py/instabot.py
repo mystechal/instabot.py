@@ -263,7 +263,7 @@ class InstaBot:
         try:
             fallback = random.sample(list_of_ua, 1)
             fake_ua = fake_useragent.UserAgent(fallback=fallback[0])
-            self.user_agent = (Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36)
+            self.user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36")
         except:
             fake_ua = random.sample(list_of_ua, 1)
             self.user_agent = check_and_insert_user_agent(self, str(fake_ua[0]))
