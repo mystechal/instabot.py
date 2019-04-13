@@ -778,64 +778,82 @@ class InstaBot:
                     # Media count by this tag.
                     if media_size > 0 or media_size < 0:
                         media_size -= 1
-                        l_c = self.media_by_tag[i]['node']['edge_liked_by']['count']
-                        if ((l_c <= self.media_max_like and
-                             l_c >= self.media_min_like) or
-                            (self.media_max_like == 0 and
-                             l_c >= self.media_min_like) or
-                            (self.media_min_like == 0 and
-                             l_c <= self.media_max_like) or
-                            (self.media_min_like == 0 and
-                             self.media_max_like == 0)):
-                            for blacklisted_user_name, blacklisted_user_id in self.user_blacklist.items(
-                            ):
-                                if self.media_by_tag[i]['node']['owner'][
-                                        'id'] == blacklisted_user_id:
+                        l_c = self.media_by_tag[i]["node"]["edge_liked_by"]["count"]
+                        if (
+                            (l_c <= self.media_max_like and l_c >= self.media_min_like)
+                            or (self.media_max_like == 0 and l_c >= self.media_min_like)
+                            or (self.media_min_like == 0 and l_c <= self.media_max_like)
+                            or (self.media_min_like == 0 and self.media_max_like == 0)
+                        ):
+                            for (
+                                blacklisted_user_name,
+                                blacklisted_user_id,
+                            ) in self.user_blacklist.items():
+                                if (
+                                    self.media_by_tag[i]["node"]["owner"]["id"]
+                                    == blacklisted_user_id
+                                ):
                                     self.write_log(
-                                        "Not liking media owned by blacklisted user: "
-                                        + blacklisted_user_name)
+                                        f"Not liking media owned by blacklisted user: {blacklisted_user_name}"
+                                    )
                                     return False
-                            if self.media_by_tag[i]['node']['owner'][
-                                    'id'] == self.user_id:
-                                self.write_log(
-                                    "Keep calm - It's your own media ;)")
+                            if (
+                                self.media_by_tag[i]["node"]["owner"]["id"]
+                                == self.user_id
+                            ):
+                                self.write_log("Keep calm - It's your own media ;)")
                                 return False
-                            if check_already_liked(self, media_id=self.media_by_tag[i]['node']['id']) == 1:
+
+                            if (
+                                check_already_liked(
+                                    self, media_id=self.media_by_tag[i]["node"]["id"]
+                                )
+                                == 1
+                            ):
                                 self.write_log("Keep calm - It's already liked ;)")
                                 return False
                             try:
-                                if (len(self.media_by_tag[i]['node']['edge_media_to_caption']['edges']) > 1):
-                                    caption = self.media_by_tag[i]['node']['edge_media_to_caption'][
-                                        'edges'][0]['node']['text'].encode(
-                                            'ascii', errors='ignore')
+                                if (
+                                    len(
+                                        self.media_by_tag[i]["node"][
+                                            "edge_media_to_caption"
+                                        ]["edges"]
+                                    )
+                                    > 1
+                                ):
+                                    caption = self.media_by_tag[i]["node"][
+                                        "edge_media_to_caption"
+                                    ]["edges"][0]["node"]["text"].encode(
+                                        "ascii", errors="ignore"
+                                    )
                                     tag_blacklist = set(self.tag_blacklist)
                                     if sys.version_info[0] == 3:
                                         tags = {
-                                            str.lower(
-                                                (tag.decode('ASCII')).strip('#'))
+                                            str.lower((tag.decode("ASCII")).strip("#"))
                                             for tag in caption.split()
-                                            if (tag.decode('ASCII')
-                                                ).startswith("#")
+                                            if (tag.decode("ASCII")).startswith("#")
                                         }
                                     else:
                                         tags = {
                                             unicode.lower(
-                                                (tag.decode('ASCII')).strip('#'))
+                                                (tag.decode("ASCII")).strip("#")
+                                            )
                                             for tag in caption.split()
-                                            if (tag.decode('ASCII')
-                                                ).startswith("#")
+                                            if (tag.decode("ASCII")).startswith("#")
                                         }
 
                                     if tags.intersection(tag_blacklist):
-                                        matching_tags = ','.join(
-                                            tags.intersection(tag_blacklist))
+                                        matching_tags = ", ".join(
+                                            tags.intersection(tag_blacklist)
+                                        )
                                         self.write_log(
-                                            "Not liking media with blacklisted tag(s): "
-                                            + matching_tags)
+                                            f"Not liking media with blacklisted tag(s): {matching_tags}"
+                                        )
                                         return False
                             except:
                                 logging.exception("Except on like_all_exist_media")
                                 return False
+
                             log_string = (
                                 "Trying to like media: %s\n                 %s"
                                 % (
